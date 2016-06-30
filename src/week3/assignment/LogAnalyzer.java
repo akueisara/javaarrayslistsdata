@@ -115,4 +115,48 @@ public class LogAnalyzer {
 	    }
 	    return ipAddress;
 	}
+	
+	public HashMap<String, ArrayList<String>> iPsForDays() {
+		HashMap<String,ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
+		for(LogEntry le: records) {
+			String ip = le.getIpAddress();
+			String date = le.getAccessTime().toString().substring(4, 10);
+			ArrayList<String> ipAddressList = new ArrayList<String>();
+			if (!map.containsKey(date)) {
+				ipAddressList.add(ip);
+				map.put(date, ipAddressList);
+			}
+			else {
+				ArrayList<String> currentipAddress = map.get(date);
+				currentipAddress.add(ip);
+				map.put(date, currentipAddress);
+			}
+		}
+		return map;
+	}
+	
+	public String dayWithMostIPVisits(HashMap<String, ArrayList<String>> map) {
+		String day ="";
+		int size = 0;
+		for (Map.Entry<String, ArrayList<String>> e : map.entrySet()) {
+			if (size < e.getValue().size()){
+				size = e.getValue().size();
+				day = e.getKey();
+			}
+		}
+		return day;
+	}
+	
+	public ArrayList<String> iPsWithMostVisitsOnDay(HashMap<String, ArrayList<String>> map, String day) {
+		ArrayList<String> list = map.get(day);
+		HashMap<String, Integer> countIP = new HashMap<String, Integer>();
+		for (String ip: list){
+			if (!countIP.containsKey(ip))
+				countIP.put(ip, 1);
+			else
+				countIP.put(ip, countIP.get(ip)+1);
+		}
+		ArrayList<String> ipMostVisits = iPsMostVisits(countIP);
+		return ipMostVisits;
+	}
 }

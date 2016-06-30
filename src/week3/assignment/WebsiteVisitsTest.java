@@ -33,5 +33,20 @@ public class WebsiteVisitsTest {
 	public void iPsMostVisitsTest() {
 		test.testiPsMostVisits();
 	}
+	
+	@Test
+	public void iPsForDaysTest() {
+		test.testiPsForDays();
+	}
+	
+	@Test
+	public void dayWithMostIPVisitsTest() {
+		test.testdayWithMostIPVisits();
+	}
+	
+	@Test
+	public void iPsWithMostVisitsOnDayTest() {
+		test.testiPsWithMostVisitsOnDay();
+	}
 
 }

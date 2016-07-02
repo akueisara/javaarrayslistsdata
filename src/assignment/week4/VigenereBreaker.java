@@ -1,7 +1,12 @@
 package assignment.week4;
 
+import java.io.File;
+
 /**
- * Assignment: English Language, Known Key Length / English Language, Unknown Key Length
+ * Assignment:
+ * English Language, Known Key Length 
+ * English Language, Unknown Key Length 
+ * Multiple Languages
  * 
  * @version June 30, 2016
  */
@@ -86,7 +91,9 @@ public class VigenereBreaker {
         }
     	
     	 int truekey = index + 1;
-         int[] key = tryKeyLength(encrypted, truekey, 'e');
+//         int[] key = tryKeyLength(encrypted, truekey, 'e'); // for English
+    	 char mostCommonChar = mostCommonCharIn(dictionary).charAt(0);
+    	 int[] key = tryKeyLength(encrypted, truekey, mostCommonChar);
          System.out.print("The keys are ");
          for (int i = 0; i < key.length; i++) {
              System.out.print(key[i] + " ");
@@ -94,6 +101,15 @@ public class VigenereBreaker {
          System.out.println("\nThe key length is "+key.length);
          VigenereCipher vc = new VigenereCipher(key);
          return vc.decrypt(encrypted);
+    }
+    
+    public void breakVigenere2 () {
+    	FileResource fr = new FileResource();
+    	String message = fr.asString();
+    	FileResource fr2 = new FileResource("./src/assignment/week4/dictionaries/English");
+    	HashSet<String> dictionary = readDictionary(fr2);
+    	String decrypt = breakForLanguage(message, dictionary);
+    	System.out.println(decrypt);
     }
     
     /** The method finds out which character, of the letters in the English alphabet, 
@@ -129,17 +145,45 @@ public class VigenereBreaker {
         return result;
     }
     
-    public void breakVigenere2 () {
-    	FileResource fr = new FileResource();
-    	String message = fr.asString();
-    	FileResource fr2 = new FileResource("./src/assignment/week4/dictionaries/English");
-    	HashSet<String> dictionary = readDictionary(fr2);
-    	String decrypt = breakForLanguage(message, dictionary);
-    	System.out.println(decrypt);
+    public HashMap<String, String> breakForAllLanguages(String encrypted, HashMap<String, HashSet<String>> languages){
+    	 HashMap<String, String> decrpytedMessages = new HashMap<String, String>();
+    	 String language = "";
+    	 int wordcount = 0;
+         for (String lang: languages.keySet()) {
+             System.out.println("Currently breaking into "+lang);
+             String decrypted_string = breakForLanguage(encrypted, languages.get(lang));
+             //System.out.println(decrypted_string);
+             int count = countWords(decrypted_string, languages.get(lang));
+             if (wordcount < count) {
+            	 wordcount = count;
+            	 language = lang;
+             }
+             //System.out.println(count + " valid words\n");
+             System.out.println();
+             decrpytedMessages.put(lang, decrypted_string);
+         }
+         System.out.println("The language of this message is " + language);
+         System.out.println(wordcount + " valid words\n");
+         return decrpytedMessages;
     }
     
-    public void breakForAllLanguages(String encrypted, HashMap<String, HashSet<String>> languages){
-    	
+    public void breakVigenere3() {
+    	FileResource fr = new FileResource();
+        String message = fr.asString();
+    	HashMap<String, HashSet<String>> languages = new HashMap<String, HashSet<String>>();
+    	DirectoryResource dr = new DirectoryResource();
+    	for (File d: dr.selectedFiles()) {
+    		FileResource fr2 = new FileResource(d.toString());
+    		HashSet<String> result = new HashSet<String>();
+            for (String line: fr2.lines()) {
+                line = line.toLowerCase();
+                result.add(line);
+            }
+            languages.put(d.getName(), result);
+            //System.out.println("Finished reading "+f.getName());
+    	}
+    	HashMap<String, String> decrypted = breakForAllLanguages(message, languages);
+        //System.out.println(decrypted.get("English"));
     }
     
 }

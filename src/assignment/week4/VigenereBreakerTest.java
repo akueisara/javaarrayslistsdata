@@ -1,7 +1,10 @@
 package assignment.week4;
 
 /**
- * Assignment: English Language, Known Key Length
+ * Assignment:
+ * English Language, Known Key Length 
+ * English Language, Unknown Key Length 
+ * Multiple Languages
  * 
  * @version June 30, 2016
  */
@@ -80,17 +83,6 @@ public class VigenereBreakerTest {
 	}
 	
 	@Test
-	public void mostCommonCharInTest() {
-		FileResource fr = new FileResource("./src/assignment/week4/dictionaries/English");
-        HashSet<String> result = new HashSet<String>();
-        for (String line: fr.lines()) {
-            line = line.toLowerCase();
-            result.add(line);
-        }
-        assertEquals("e",v.mostCommonCharIn(result));      
-	}
-	
-	@Test
 	public void breakVigenere2Test() {
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
@@ -102,5 +94,24 @@ public class VigenereBreakerTest {
 		assertEquals("SCENE II. Athens. QUINCE'S house.", lines[2]);
 		System.setOut(System.out);  // reset to standard output
 	}
+	
+	@Test
+	public void mostCommonCharInTest() {
+		FileResource fr = new FileResource("./src/assignment/week4/dictionaries/English");
+        HashSet<String> result = new HashSet<String>();
+        for (String line: fr.lines()) {
+            line = line.toLowerCase();
+            result.add(line);
+        }
+        assertEquals("e",v.mostCommonCharIn(result));      
+	}
+	
+	@Test
+	public void breakVigenere3Test() {
+		// 1. read athens_keyflute.txt
+		// 2. choose all the dictionaries
+		v.breakVigenere3();
+	}
+	
 }
 

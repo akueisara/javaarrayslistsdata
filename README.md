@@ -1,5 +1,5 @@
 # Java Programming: Arrays, Lists and Structured Data
-Assignments from Java Programming: Arrays, Lists and Structured Data on Coursera
+Assignments for Java Programming: Arrays, Lists and Structured Data on Coursera
 
 ## Week 1
 ### [Cryptography: Keeping Information Secret](https://github.com/akueisara/java-programming-arrays-lists-and-structured-data/tree/master/src/assignment/week1)

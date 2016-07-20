@@ -62,13 +62,14 @@ public class VigenereBreakerTest {
 	
 	@Test
 	public void breakVigenereTest() {
+		PrintStream original = System.out;
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
 		// read athens_keyflute.txt
 		v.breakVigenere();
 		String [] lines = outContent.toString().split("\\r?\\n");
 		assertEquals("SCENE II. Athens. QUINCE'S house.", lines[0]);
-		System.setOut(System.out);  // reset to standard output
+		System.setOut(original);  // reset to standard output
 	}
 	
 	@Test
@@ -84,6 +85,7 @@ public class VigenereBreakerTest {
 	
 	@Test
 	public void breakVigenere2Test() {
+		PrintStream original = System.out;
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outContent));
 		// read athens_keyflute.txt
@@ -92,7 +94,7 @@ public class VigenereBreakerTest {
 		assertEquals("The keys are 5 11 20 19 4 ", lines[0]);
 		assertEquals("The key length is 5", lines[1]);
 		assertEquals("SCENE II. Athens. QUINCE'S house.", lines[2]);
-		System.setOut(System.out);  // reset to standard output
+		System.setOut(original);  // reset to standard output
 	}
 	
 	@Test
